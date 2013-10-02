@@ -35,7 +35,7 @@ public class ParallaxScrollView extends ScrollView implements ParallaxScrollCont
     }
 
     @Override
-    public void parallaxViewBy(View view) {
-
+    public void parallaxViewBy(View view, float multiplier) {
+        mParallaxScrollController.parallaxViewBy(view, multiplier);
     }
 }

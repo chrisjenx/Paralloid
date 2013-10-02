@@ -1,43 +1,55 @@
-<uk.co.chrisjenx.paralloid.view.ParallaxScrollView
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-    <LinearLayout
+    <ImageView android:id="@+id/image_view"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:scaleType="center"
+               android:src="@drawable/example_image"/>
+
+    <uk.co.chrisjenx.paralloid.view.ParallaxScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-        <View
-                android:background="@android:color/holo_blue_bright"
-                style="@style/FixedHeightBox"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <View
-                android:background="@android:color/holo_blue_dark"
-                style="@style/FixedHeightBox"/>
+            <View
+                    android:background="@android:color/holo_blue_bright"
+                    style="@style/FixedHeightBox"/>
 
-        <View
-                android:background="@android:color/holo_blue_light"
-                style="@style/FixedHeightBox"/>
+            <View
+                    android:background="@android:color/holo_blue_dark"
+                    style="@style/FixedHeightBox"/>
 
-        <View
-                android:background="@android:color/holo_green_dark"
-                style="@style/FixedHeightBox"/>
+            <View
+                    android:background="@android:color/holo_blue_light"
+                    style="@style/FixedHeightBox"/>
 
-        <View
-                android:background="@android:color/holo_green_light"
-                style="@style/FixedHeightBox"/>
+            <View
+                    android:background="@android:color/holo_green_dark"
+                    style="@style/FixedHeightBox"/>
 
-        <View
-                android:background="@android:color/holo_orange_dark"
-                style="@style/FixedHeightBox"/>
+            <View
+                    android:background="@android:color/holo_green_light"
+                    style="@style/FixedHeightBox"/>
 
-        <View
-                android:background="@android:color/holo_orange_light"
-                style="@style/FixedHeightBox"/>
+            <View
+                    android:background="@android:color/holo_orange_dark"
+                    style="@style/FixedHeightBox"/>
 
-    </LinearLayout>
+            <View
+                    android:background="@android:color/holo_orange_light"
+                    style="@style/FixedHeightBox"/>
 
-</uk.co.chrisjenx.paralloid.view.ParallaxScrollView>
+        </LinearLayout>
+
+    </uk.co.chrisjenx.paralloid.view.ParallaxScrollView>
+</FrameLayout>
 
