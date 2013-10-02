@@ -1,16 +1,43 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".HomeActivity$DummySectionFragment">
+<uk.co.chrisjenx.paralloid.view.ParallaxScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</RelativeLayout>
+        <View
+                android:background="@android:color/holo_blue_bright"
+                style="@style/FixedHeightBox"/>
+
+        <View
+                android:background="@android:color/holo_blue_dark"
+                style="@style/FixedHeightBox"/>
+
+        <View
+                android:background="@android:color/holo_blue_light"
+                style="@style/FixedHeightBox"/>
+
+        <View
+                android:background="@android:color/holo_green_dark"
+                style="@style/FixedHeightBox"/>
+
+        <View
+                android:background="@android:color/holo_green_light"
+                style="@style/FixedHeightBox"/>
+
+        <View
+                android:background="@android:color/holo_orange_dark"
+                style="@style/FixedHeightBox"/>
+
+        <View
+                android:background="@android:color/holo_orange_light"
+                style="@style/FixedHeightBox"/>
+
+    </LinearLayout>
+
+</uk.co.chrisjenx.paralloid.view.ParallaxScrollView>
+

@@ -44,9 +44,8 @@ public class ParallaxScrollController<T extends View & ParallaxScrollController.
 
     @Override
     public void onScrollChanged() {
-        Log.d(TAG, "Scroll Changed");
-        int offsetX = mWrappedView.getScrollX();
-        int offsetY = mWrappedView.getScrollY();
+        final int offsetX = mWrappedView.getScrollX();
+        final int offsetY = mWrappedView.getScrollY();
         Log.d(TAG, String.format("X: %d, Y: %d", offsetX, offsetY));
     }
 
