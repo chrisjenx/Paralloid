@@ -22,4 +22,6 @@ local.properties
 # Gradle + Project files
 .idea/
 build/
+.gradle/
 *.iml
+.DS_Store
