@@ -1,1 +1,43 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    group = 'uk.co.chrisjenx.paralloid'
+    version = '0.1.0'
+
+    ext.isReleaseVersion = has("release")
+    if (isReleaseVersion) {
+        ext.sonatypeRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+    } else {
+        version += "-SNAPSHOT"
+        ext.sonatypeRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+
+    ext.sonatypeUsername = has("sonatypeUsername") ? sonatypeUsername : ""
+    ext.sonatypePassword = has("sonatypePassword") ? sonatypePassword : ""
+
+    apply plugin: 'maven'
+    apply plugin: 'signing'
+
+    configurations {
+        archives {
+            extendsFrom configurations.default
+        }
+    }
+
+    signing {
+        required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+}
