@@ -15,7 +15,7 @@ import android.widget.ScrollView;
 
 import java.util.Locale;
 
-import uk.co.chrisjenx.paralloid.ParallaxScrollController;
+import uk.co.chrisjenx.paralloid.Parallaxor;
 
 public class HomeActivity extends FragmentActivity {
 
@@ -122,8 +122,8 @@ public class HomeActivity extends FragmentActivity {
             View rootView = inflater.inflate(R.layout.fragment_home_dummy, container, false);
             ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
             ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
-            if (scrollView instanceof ParallaxScrollController.Parallaxor) {
-                ((ParallaxScrollController.Parallaxor) scrollView).parallaxViewBy(imageView, 0.5f);
+            if (scrollView instanceof Parallaxor) {
+                ((Parallaxor) scrollView).parallaxViewBy(imageView, 0.5f);
             }
 
             return rootView;
