@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ScrollView;
 
+import uk.co.chrisjenx.paralloid.OnScrollChangedListener;
 import uk.co.chrisjenx.paralloid.ParallaxScrollController;
 import uk.co.chrisjenx.paralloid.Parallaxor;
 
@@ -44,5 +45,10 @@ public class ParallaxScrollView extends ScrollView implements Parallaxor {
     @Override
     public void parallaxBackgroundBy(Drawable drawable, float multiplier) {
         //TODO
+    }
+
+    @Override
+    public void setOnScrollListener(OnScrollChangedListener onScrollChangedListener) {
+        mParallaxScrollController.setOnScrollListener(onScrollChangedListener);
     }
 }
