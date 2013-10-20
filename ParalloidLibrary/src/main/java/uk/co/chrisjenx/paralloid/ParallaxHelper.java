@@ -26,14 +26,22 @@ public final class ParallaxHelper {
     }
 
 
-    public static ParallaxDrawable setParallaxBackground(final View view, final Drawable drawableBackground) {
+    public static ParallaxDrawable setParallaxBackground(final View view, final Drawable drawableBackground, float multiplier) {
         if (view == null || drawableBackground == null) return null;
-        ParallaxDrawable parallaxDrawable = new ParallaxDrawable(drawableBackground);
+        final ParallaxDrawable parallaxDrawable = new ParallaxDrawable(drawableBackground, multiplier);
+        // We request the size before attaching just incase the view has drawn we can prepopulate the drawable with the extra height/width
+        requestScrollableWidthHeight(view, multiplier, new ParallaxHelper.ScrollableWidthHeightCallback() {
+            @Override
+            public void onScrollableWidthHeight(final float width, final float height) {
+                // This is called back when the view has (hopefully) the correct width/height
+                parallaxDrawable.setParallaxExtraWidthHeight(width, height);
+            }
+        });
         view.setBackgroundDrawable(parallaxDrawable);
         return parallaxDrawable;
     }
 
-    public static void requestScrollableWidthHeight(final View view, final float multiplier, final ScrollableWidthHeightCallback callback) {
+    static void requestScrollableWidthHeight(final View view, final float multiplier, final ScrollableWidthHeightCallback callback) {
         if (callback == null) return;
         // Have we done a layout pass?
         if (view.getHeight() > 0 || view.getWidth() > 0) {
@@ -52,7 +60,7 @@ public final class ParallaxHelper {
         }
     }
 
-    private static float[] calculateScrollableWidthHeightFromView(View view, float factor) {
+    static float[] calculateScrollableWidthHeightFromView(View view, float factor) {
         if (view == null) return new float[2];
         if (view instanceof ScrollView) {
             // Get the ScrollView's only child
@@ -63,7 +71,7 @@ public final class ParallaxHelper {
         if (view instanceof HorizontalScrollView) {
             // Get the ScrollView's only child
             final View child = ((HorizontalScrollView) view).getChildAt(0);
-            return new float[]{child.getWidth() * factor, view.getHeight()};
+            return new float[]{calculateExtraScroll(view.getWidth(), child.getWidth(), factor), view.getHeight()};
         }
         if (view instanceof ListView) {
             //TODO
@@ -72,11 +80,11 @@ public final class ParallaxHelper {
         return new float[]{view.getWidth(), view.getHeight()};
     }
 
-    private static float calculateExtraScroll(float parent, float child, float factor) {
+    static float calculateExtraScroll(float parent, float child, float factor) {
         return parent + (child - parent) * factor;
     }
 
-    public static interface ScrollableWidthHeightCallback {
+    static interface ScrollableWidthHeightCallback {
         void onScrollableWidthHeight(float width, float height);
     }
 

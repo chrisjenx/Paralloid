@@ -14,20 +14,26 @@ import android.os.Build;
 public class ParallaxDrawable extends Drawable {
 
     private final Drawable mWrappedDrawable;
+    private float mMultiplier;
     private int mWidth;
     private int mHeight;
     private float mOffsetX;
     private float mOffsetY;
 
-    public ParallaxDrawable(Drawable wrappedDrawable) {
+    public ParallaxDrawable(Drawable wrappedDrawable, float multiplier) {
         mWrappedDrawable = wrappedDrawable;
+        mMultiplier = multiplier;
     }
 
     public Drawable getWrappedDrawable() {
         return mWrappedDrawable;
     }
 
-    public void setParallaxBounds(float width, float height) {
+    public void setMultiplier(float multiplier) {
+        mMultiplier = multiplier;
+    }
+
+    public void setParallaxExtraWidthHeight(float width, float height) {
         mWidth = (int) width;
         mHeight = (int) height;
     }

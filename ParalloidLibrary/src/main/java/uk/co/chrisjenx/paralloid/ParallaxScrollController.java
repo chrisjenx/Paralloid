@@ -94,16 +94,7 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
 
     @Override
     public void parallaxBackgroundBy(final Drawable drawable, final float multiplier) {
-        mWrappedParallaxBackground = ParallaxHelper.setParallaxBackground(mWrappedView, drawable);
-        mParallaxBackgroundMultiplier = multiplier;
-        if (mWrappedParallaxBackground == null) return;
-        ParallaxHelper.requestScrollableWidthHeight(mWrappedView, multiplier, new ParallaxHelper.ScrollableWidthHeightCallback() {
-            @Override
-            public void onScrollableWidthHeight(float width, float height) {
-                // This is called back when the view has (hopefully) the correct width/height
-                mWrappedParallaxBackground.setParallaxBounds(width, height);
-            }
-        });
+        mWrappedParallaxBackground = ParallaxHelper.setParallaxBackground(mWrappedView, drawable, multiplier);
     }
 
     /**
