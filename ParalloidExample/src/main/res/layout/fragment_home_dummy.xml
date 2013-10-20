@@ -8,7 +8,7 @@
                android:layout_height="192dp"
                android:src="@drawable/bg_gradient"/>
 
-    <uk.co.chrisjenx.paralloid.view.ParallaxScrollView
+    <uk.co.chrisjenx.paralloid.views.ParallaxScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -50,6 +50,6 @@
 
         </LinearLayout>
 
-    </uk.co.chrisjenx.paralloid.view.ParallaxScrollView>
+    </uk.co.chrisjenx.paralloid.views.ParallaxScrollView>
 </FrameLayout>
 

@@ -1,4 +1,4 @@
-<uk.co.chrisjenx.paralloid.view.ParallaxScrollView
+<uk.co.chrisjenx.paralloid.views.ParallaxScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -40,6 +40,6 @@
 
     </LinearLayout>
 
-</uk.co.chrisjenx.paralloid.view.ParallaxScrollView>
+</uk.co.chrisjenx.paralloid.views.ParallaxScrollView>
 
 

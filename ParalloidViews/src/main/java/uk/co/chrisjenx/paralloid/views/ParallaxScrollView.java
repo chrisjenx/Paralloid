@@ -1,4 +1,4 @@
-package uk.co.chrisjenx.paralloid.view;
+package uk.co.chrisjenx.paralloid.views;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
