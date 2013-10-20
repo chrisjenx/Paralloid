@@ -27,15 +27,14 @@ public class ParallaxDrawable extends Drawable {
         return mWrappedDrawable;
     }
 
-    public void setParallaxBounds(int width, int height) {
-        mWidth = width;
-        mHeight = height;
+    public void setParallaxBounds(float width, float height) {
+        mWidth = (int) width;
+        mHeight = (int) height;
     }
 
     public void setScrollTo(float x, float y) {
         mOffsetX = x;
         mOffsetY = y;
-//        invalidateSelf();
     }
 
     @Override
@@ -45,9 +44,10 @@ public class ParallaxDrawable extends Drawable {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        canvas.translate(mOffsetX, mOffsetY);
+    public void draw(final Canvas canvas) {
+        canvas.translate(-mOffsetX, -mOffsetY);
         mWrappedDrawable.draw(canvas);
+        canvas.translate(mOffsetX, mOffsetY);
     }
 
     // ----
@@ -109,22 +109,26 @@ public class ParallaxDrawable extends Drawable {
 
     @Override
     public int getIntrinsicHeight() {
-        return mWrappedDrawable.getIntrinsicHeight();
+        return 0;
     }
 
     @Override
     public int getIntrinsicWidth() {
-        return mWrappedDrawable.getIntrinsicWidth();
+        return 0;
     }
 
     @Override
     public int getMinimumWidth() {
-        return mWrappedDrawable.getMinimumWidth();
+        return 0;
     }
 
     @Override
     public int getMinimumHeight() {
-        return mWrappedDrawable.getMinimumHeight();
+        return 0;
     }
 
+    @Override
+    public boolean getPadding(Rect padding) {
+        return mWrappedDrawable.getPadding(padding);
+    }
 }

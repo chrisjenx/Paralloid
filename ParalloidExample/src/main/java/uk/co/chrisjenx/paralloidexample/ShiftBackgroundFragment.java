@@ -13,9 +13,9 @@ import uk.co.chrisjenx.paralloid.Parallaxor;
  * A dummy fragment representing a section of the app, but that simply
  * displays dummy text.
  */
-public class ParallaxBackgroundFragment extends Fragment {
+public class ShiftBackgroundFragment extends Fragment {
 
-    public ParallaxBackgroundFragment() {
+    public ShiftBackgroundFragment() {
     }
 
     @Override
@@ -24,7 +24,7 @@ public class ParallaxBackgroundFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_parallax_background, container, false);
         ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
         if (scrollView instanceof Parallaxor) {
-            ((Parallaxor) scrollView).parallaxBackgroundBy(getResources().getDrawable(R.drawable.example_image), .2f);
+            ((Parallaxor) scrollView).parallaxBackgroundBy(getResources().getDrawable(R.drawable.bg_gradient_invert), 1f);
         }
 
         return rootView;

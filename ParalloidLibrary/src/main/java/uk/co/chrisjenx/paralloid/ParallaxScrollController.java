@@ -96,10 +96,10 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     public void parallaxBackgroundBy(final Drawable drawable, final float multiplier) {
         mWrappedParallaxBackground = ParallaxHelper.setParallaxBackground(mWrappedView, drawable);
         mParallaxBackgroundMultiplier = multiplier;
-        if(mWrappedParallaxBackground == null) return;
-        ParallaxHelper.requestScrollableWidthHeight(mWrappedView,new ParallaxHelper.ScrollableWidthHeightCallback() {
+        if (mWrappedParallaxBackground == null) return;
+        ParallaxHelper.requestScrollableWidthHeight(mWrappedView, multiplier, new ParallaxHelper.ScrollableWidthHeightCallback() {
             @Override
-            public void onScrollableWidthHeight(int width, int height) {
+            public void onScrollableWidthHeight(float width, float height) {
                 // This is called back when the view has (hopefully) the correct width/height
                 mWrappedParallaxBackground.setParallaxBounds(width, height);
             }
@@ -109,7 +109,7 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     /**
      * Feel free to implement {@link uk.co.chrisjenx.paralloid.OnScrollChangedListener} to get call
      * backs to the wrapped view for scroll changed events.
-     *
+     * <p/>
      * <b>Note</b>: this will get called, AFTER any parallax modification.
      *
      * @param onScrollChangedListener Null is valid (it will remove it if set).
