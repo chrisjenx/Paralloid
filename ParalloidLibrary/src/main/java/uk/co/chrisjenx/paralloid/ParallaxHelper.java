@@ -3,8 +3,8 @@ package uk.co.chrisjenx.paralloid;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
-import android.widget.ListView;
 import android.widget.ScrollView;
 
 import uk.co.chrisjenx.paralloid.graphics.ParallaxDrawable;
@@ -73,8 +73,9 @@ public final class ParallaxHelper {
             final View child = ((HorizontalScrollView) view).getChildAt(0);
             return new float[]{calculateExtraScroll(view.getWidth(), child.getWidth(), factor), view.getHeight()};
         }
-        if (view instanceof ListView) {
-            //TODO
+        if (view instanceof AbsListView) {
+            float estimatedHeight = calculateExtraScroll(view.getHeight(), ListViewScrollTracker.calculateApproximateHeight((AbsListView) view), factor);
+            return new float[]{view.getWidth(), estimatedHeight};
         }
         // Not sure what it is? Just use the width/height
         return new float[]{view.getWidth(), view.getHeight()};
