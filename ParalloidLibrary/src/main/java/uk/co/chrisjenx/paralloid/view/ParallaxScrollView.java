@@ -44,7 +44,7 @@ public class ParallaxScrollView extends ScrollView implements Parallaxor {
 
     @Override
     public void parallaxBackgroundBy(Drawable drawable, float multiplier) {
-        //TODO
+        mParallaxScrollController.parallaxBackgroundBy(drawable, multiplier);
     }
 
     @Override

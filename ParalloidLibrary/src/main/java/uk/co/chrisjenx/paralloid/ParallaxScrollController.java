@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
+import uk.co.chrisjenx.paralloid.graphics.ParallaxDrawable;
+
 /**
  * Created by chris on 02/10/2013
  * Project: Paralloid
@@ -35,6 +37,14 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
      * HashMap which contains the parallaxed views.
      */
     private WeakHashMap<View, Float> mViewHashMap;
+    /**
+     * The background of the wrapped View to Parallax
+     */
+    private ParallaxDrawable mWrappedParallaxBackground;
+    /**
+     * BackgroundScaleFactor
+     */
+    private float mParallaxBackgroundMultiplier;
     /**
      * The Optional Scroll Changed Listener for the user to listen to scroll events.
      */
@@ -73,6 +83,8 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
      */
     public void parallaxViewBy(View view, float factor) {
         if (view == null) return;
+        if (view == mWrappedView)
+            throw new IllegalArgumentException("You can't parallax the Parallaxor, this would end badly, Parallax other views");
         if (mViewHashMap == null)
             mViewHashMap = new WeakHashMap<View, Float>();
 
@@ -81,8 +93,17 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     }
 
     @Override
-    public void parallaxBackgroundBy(Drawable drawable, float multiplier) {
-        //TODO
+    public void parallaxBackgroundBy(final Drawable drawable, final float multiplier) {
+        mWrappedParallaxBackground = ParallaxHelper.setParallaxBackground(mWrappedView, drawable);
+        mParallaxBackgroundMultiplier = multiplier;
+        if(mWrappedParallaxBackground == null) return;
+        ParallaxHelper.requestScrollableWidthHeight(mWrappedView,new ParallaxHelper.ScrollableWidthHeightCallback() {
+            @Override
+            public void onScrollableWidthHeight(int width, int height) {
+                // This is called back when the view has (hopefully) the correct width/height
+                mWrappedParallaxBackground.setParallaxBounds(width, height);
+            }
+        });
     }
 
     /**
@@ -148,6 +169,10 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
                 // Parallax the other view
                 ParallaxHelper.scrollViewBy(viewPointer, x, y, entryPointer.getValue());
             }
+        }
+        //Parallax this background if we can
+        if (mWrappedParallaxBackground != null) {
+            ParallaxHelper.scrollBackgroundBy(mWrappedParallaxBackground, x, y, mParallaxBackgroundMultiplier);
         }
         // Scroll Changed Listener?
         if (mScrollChangedListener != null) {

@@ -64,14 +64,13 @@ public class HomeActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a ParallaxViewUpFragment (defined as a static inner class
-            // below) with the page number as its lone argument.
-            Fragment fragment = new ParallaxViewUpFragment();
-            Bundle args = new Bundle();
-            args.putInt(ParallaxViewUpFragment.ARG_SECTION_NUMBER, position + 1);
-            fragment.setArguments(args);
-            return fragment;
+            switch (position) {
+                case 0:
+                    return new ParallaxViewUpFragment();
+                default:
+                case 1:
+                    return new ParallaxBackgroundFragment();
+            }
         }
 
         @Override
