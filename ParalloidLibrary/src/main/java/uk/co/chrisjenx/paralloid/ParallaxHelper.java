@@ -29,7 +29,7 @@ public final class ParallaxHelper {
     public static ParallaxDrawable setParallaxBackground(final View view, final Drawable drawableBackground, float multiplier) {
         if (view == null || drawableBackground == null) return null;
         final ParallaxDrawable parallaxDrawable = new ParallaxDrawable(drawableBackground, multiplier);
-        // We request the size before attaching just incase the view has drawn we can prepopulate the drawable with the extra height/width
+        // We request the size before attaching just incase the view has drawn we can pre populate the drawable with the extra height/width
         requestScrollableWidthHeight(view, multiplier, new ParallaxHelper.ScrollableWidthHeightCallback() {
             @Override
             public void onScrollableWidthHeight(final float width, final float height) {
@@ -78,7 +78,10 @@ public final class ParallaxHelper {
             return new float[]{view.getWidth(), estimatedHeight};
         }
         // Not sure what it is? Just use the width/height
-        return new float[]{view.getWidth(), view.getHeight()};
+        return new float[]{
+                calculateExtraScroll(view.getWidth(), view.getWidth(), factor),
+                calculateExtraScroll(view.getHeight(), view.getHeight(), factor)
+        };
     }
 
     static float calculateExtraScroll(float parent, float child, float factor) {
