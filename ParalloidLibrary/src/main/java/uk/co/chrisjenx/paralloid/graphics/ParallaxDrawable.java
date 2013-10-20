@@ -39,8 +39,8 @@ public class ParallaxDrawable extends Drawable {
     }
 
     public void setScrollTo(float x, float y) {
-        mOffsetX = x;
-        mOffsetY = y;
+        mOffsetX = x * mMultiplier;
+        mOffsetY = y * mMultiplier;
     }
 
     @Override

@@ -20,9 +20,9 @@ public final class ParallaxHelper {
         view.scrollTo((int) (x * factor), (int) (y * factor));
     }
 
-    public static void scrollBackgroundBy(final ParallaxDrawable drawable, final int scrollX, final int scrollY, final float factor) {
+    public static void scrollBackgroundBy(final ParallaxDrawable drawable, final int scrollX, final int scrollY) {
         if (drawable == null) return;
-        drawable.setScrollTo(scrollX * factor, scrollY * factor);
+        drawable.setScrollTo(scrollX, scrollY);
     }
 
 

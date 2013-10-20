@@ -42,10 +42,6 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
      */
     private ParallaxDrawable mWrappedParallaxBackground;
     /**
-     * BackgroundScaleFactor
-     */
-    private float mParallaxBackgroundMultiplier;
-    /**
      * The Optional Scroll Changed Listener for the user to listen to scroll events.
      */
     private OnScrollChangedListener mScrollChangedListener;
@@ -163,7 +159,7 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         }
         //Parallax this background if we can
         if (mWrappedParallaxBackground != null) {
-            ParallaxHelper.scrollBackgroundBy(mWrappedParallaxBackground, x, y, mParallaxBackgroundMultiplier);
+            ParallaxHelper.scrollBackgroundBy(mWrappedParallaxBackground, x, y);
         }
         // Scroll Changed Listener?
         if (mScrollChangedListener != null) {
