@@ -24,6 +24,25 @@ Two high level modules exist
 
 Generally use `paralloidviews` as it contains everything you need to get going.
 
+Getting Started
+---------------
+
+__Gradle (I will not support for Maven)__
+Locally:
+
+    dependencies {
+	    compile 'com.android.support:appcompat-v7:18.0.+'
+        compile project(':paralloidviews')
+    }
+    
+Or Repository:
+
+    dependencies {
+    	compile 'com.android.support:appcompat-v7:18.0.+'
+        compile 'uk.co.chrisjenx.paralloid:paralloid:0.1.+'
+    }
+
+
 Custom View's
 -------------
 
