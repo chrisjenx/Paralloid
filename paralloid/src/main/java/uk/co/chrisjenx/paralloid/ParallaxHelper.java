@@ -1,7 +1,7 @@
 package uk.co.chrisjenx.paralloid;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
@@ -39,6 +39,7 @@ public final class ParallaxHelper {
             }
         });
         view.setBackgroundDrawable(parallaxDrawable);
+        fixParallaxBackgroundPreJBMR1(view, parallaxDrawable);
         return parallaxDrawable;
     }
 
@@ -78,7 +79,7 @@ public final class ParallaxHelper {
             float estimatedHeight = calculateExtraScroll(view.getHeight(),
                     AbsListViewHelper.calculateApproximateHeight((AbsListView) view),
                     factor);
-            Log.d("Parallax", "Est Height: " + estimatedHeight);
+            // Log.d("Parallax", "Est Height: " + estimatedHeight);
             return new float[]{view.getWidth(), estimatedHeight};
         }
         // Not sure what it is? Just use the width/height
@@ -90,6 +91,31 @@ public final class ParallaxHelper {
 
     static float calculateExtraScroll(float parent, float child, float factor) {
         return parent + (child - parent) * factor;
+    }
+
+    /**
+     * Hack to fix pre JB MR1 Kudos to @cyrilmottier
+     *
+     * @param view     view drawable attached too.
+     * @param drawable drawable which gets invalidated
+     */
+    static void fixParallaxBackgroundPreJBMR1(final View view, final Drawable drawable) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            drawable.setCallback(new Drawable.Callback() {
+                @Override
+                public void invalidateDrawable(Drawable who) {
+                    view.setBackgroundDrawable(who);
+                }
+
+                @Override
+                public void scheduleDrawable(Drawable who, Runnable what, long when) {
+                }
+
+                @Override
+                public void unscheduleDrawable(Drawable who, Runnable what) {
+                }
+            });
+        }
     }
 
     static interface ScrollableWidthHeightCallback {

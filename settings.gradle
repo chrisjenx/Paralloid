@@ -1,1 +1,1 @@
-include ':paralloidexample', ':paralloidviews'
+include ':paralloid', ':paralloidexample', ':paralloidviews'

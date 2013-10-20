@@ -1,6 +1,5 @@
 package uk.co.chrisjenx.paralloid;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
@@ -35,7 +34,7 @@ public final class AbsListViewHelper {
                 totalHeight += ((ListView) listView).getDividerHeight() * (totalCount - 1);
             }
         }
-        Log.d("Parallax", "Total height: " + totalHeight);
+        // Log.d("Parallax", "Total height: " + totalHeight);
         return totalHeight;
     }
 

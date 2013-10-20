@@ -2,7 +2,6 @@ package uk.co.chrisjenx.paralloid;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 
 import java.util.Iterator;
@@ -16,7 +15,7 @@ import uk.co.chrisjenx.paralloid.graphics.ParallaxDrawable;
  * Created by chris on 02/10/2013
  * Project: Paralloid
  */
-public class ParallaxScrollController<T extends View & Parallaxor> implements Parallaxor {
+public class ParallaxScrollController<T extends View & Parallaxor> implements ParallaxorListener, AbsListView.OnScrollListener {
 
     public static String TAG = ParallaxScrollController.class.getSimpleName();
 
@@ -28,12 +27,6 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
      * The wrapped view.
      */
     final T mWrappedView;
-    /**
-     * Observer used to listen to the mWrappedView scroll changes.
-     * (This is done to stop making {@code onScrollChanged()} public to the user.
-     */
-    final ScrollControllerOnScrollObserver mScrollObserver = new ScrollControllerOnScrollObserver(this);
-
     /**
      * HashMap which contains the parallaxed views.
      */
@@ -47,6 +40,10 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
      */
     private OnScrollChangedListener mScrollChangedListener;
 
+    /**
+     * Gets set to true if a View which has its own OnScrollListener
+     */
+    private boolean mIgnoreOnScrollListener;
     private int mLastScrollX = 0;
     private int mLastScrollY = 0;
 
@@ -67,13 +64,8 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
             throw new IllegalArgumentException("The wrapped view cannot be null");
 
         if (mWrappedView instanceof AbsListView) {
-            ((AbsListView) mWrappedView).setCacheColorHint(android.R.color.transparent);
-            ((AbsListView) mWrappedView).setOnScrollListener(mScrollObserver);
-        } else {
-            final ViewTreeObserver observer = mWrappedView.getViewTreeObserver();
-            if (observer != null) {
-                observer.addOnScrollChangedListener(mScrollObserver);
-            }
+            mIgnoreOnScrollListener = true;
+            ((AbsListView) mWrappedView).setOnScrollListener(this);
         }
     }
 
@@ -112,6 +104,30 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         mScrollChangedListener = onScrollChangedListener;
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
+
+    /**
+     * Used internally by the AbsListView implementation, calling through to this is unnecessary, the controller
+     * will happily set the OnScrollListener
+     */
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        final int offsetY = AbsListViewHelper.calculateOffset(view);
+        onScrollChanged(offsetY, false);
+    }
+
+    /**
+     * Used to do parallax, Your View Should call directly through to this. Some implimentations ignore this
+     * on purpose (e.g. the ListView)
+     */
+    @Override
+    public void onScrollChanged(View who, int l, int t, int oldl, int oldt) {
+        if (who != mWrappedView || mIgnoreOnScrollListener) return;
+        onScrollChanged(l, t, oldl, oldt, false);
+    }
+
     /**
      * Something has changed.
      *
@@ -121,19 +137,21 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     private void onScrollChanged(boolean force) {
         final int offsetX = mWrappedView.getScrollX();
         final int offsetY = mWrappedView.getScrollY();
-        onScrollChanged(offsetX, offsetY, force);
+        onScrollChanged(offsetX, offsetY, mLastScrollX, mLastScrollY, force);
+        mLastScrollX = offsetX;
+        mLastScrollY = offsetY;
     }
 
     private void onScrollChanged(int offsetY, boolean force) {
         final int offsetX = mWrappedView.getScrollX();
-        onScrollChanged(offsetX, offsetY, force);
+        onScrollChanged(offsetX, offsetY, mLastScrollX, mLastScrollY, force);
+        mLastScrollX = offsetX;
+        mLastScrollY = offsetY;
     }
 
-    private void onScrollChanged(int offsetX, int offsetY, boolean force) {
-        if (offsetX != mLastScrollX || offsetY != mLastScrollY || force) {
-            doScrollChanged(offsetX, offsetY, mLastScrollX, mLastScrollY);
-            mLastScrollX = offsetX;
-            mLastScrollY = offsetY;
+    private void onScrollChanged(int offsetX, int offsetY, int oldOffsetX, int oldOffsetY, boolean force) {
+        if (offsetX != oldOffsetX || offsetY != oldOffsetY || force) {
+            doScrollChanged(offsetX, offsetY, oldOffsetX, oldOffsetY);
         }
     }
 
@@ -181,34 +199,4 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
             mScrollChangedListener.onScrollChanged(mWrappedView, x, y, oldX, oldY);
         }
     }
-
-    /**
-     * Internal Class that listens to the ScrollChanged ViewTree, stops onScrollChanged() becoming public on
-     * {@link uk.co.chrisjenx.paralloid.ParallaxScrollController}
-     */
-    static class ScrollControllerOnScrollObserver implements ViewTreeObserver.OnScrollChangedListener, AbsListView.OnScrollListener {
-
-        private final ParallaxScrollController mParallaxScrollController;
-
-        public ScrollControllerOnScrollObserver(ParallaxScrollController parallaxScrollController) {
-            mParallaxScrollController = parallaxScrollController;
-        }
-
-        @Override
-        public void onScrollChanged() {
-            mParallaxScrollController.onScrollChanged(false);
-        }
-
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            final int offsetY = AbsListViewHelper.calculateOffset(view);
-            mParallaxScrollController.onScrollChanged(offsetY, false);
-        }
-    }
-
-
 }
