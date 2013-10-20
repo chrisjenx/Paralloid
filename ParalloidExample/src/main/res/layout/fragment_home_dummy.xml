@@ -5,9 +5,8 @@
 
     <ImageView android:id="@+id/image_view"
                android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:scaleType="center"
-               android:src="@drawable/example_image"/>
+               android:layout_height="128dp"
+               android:background="@drawable/bg_gradient"/>
 
     <uk.co.chrisjenx.paralloid.view.ParallaxScrollView
             android:id="@+id/scroll_view"
@@ -18,7 +17,8 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="128dp">
 
             <View
                     android:background="@android:color/holo_blue_bright"
