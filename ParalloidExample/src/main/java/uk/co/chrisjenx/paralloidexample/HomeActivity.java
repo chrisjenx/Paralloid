@@ -67,16 +67,18 @@ public class HomeActivity extends FragmentActivity {
                     return new ParallaxViewUpFragment();
                 case 1:
                     return new ShiftBackgroundFragment();
-                default:
                 case 2:
                     return new ParallaxBackgroundFragment();
+                default:
+                case 3:
+                    return new ParallaxBackgroundListFragment();
             }
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -88,6 +90,8 @@ public class HomeActivity extends FragmentActivity {
                     return getString(R.string.title_section2);
                 case 2:
                     return getString(R.string.title_section3);
+                case 3:
+                    return getString(R.string.title_section4);
             }
             return null;
         }

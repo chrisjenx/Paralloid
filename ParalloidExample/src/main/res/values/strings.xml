@@ -6,5 +6,6 @@
     <string name="title_section1">Parallax View</string>
     <string name="title_section2">Shift Background</string>
     <string name="title_section3">Parallax Background</string>
+    <string name="title_section4">Parallax List Background</string>
 
 </resources>
