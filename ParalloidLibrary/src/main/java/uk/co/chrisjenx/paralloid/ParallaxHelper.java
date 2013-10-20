@@ -74,7 +74,7 @@ public final class ParallaxHelper {
             return new float[]{calculateExtraScroll(view.getWidth(), child.getWidth(), factor), view.getHeight()};
         }
         if (view instanceof AbsListView) {
-            float estimatedHeight = calculateExtraScroll(view.getHeight(), ListViewScrollTracker.calculateApproximateHeight((AbsListView) view), factor);
+            float estimatedHeight = calculateExtraScroll(view.getHeight(), AbsListViewHelper.calculateApproximateHeight((AbsListView) view), factor);
             return new float[]{view.getWidth(), estimatedHeight};
         }
         // Not sure what it is? Just use the width/height

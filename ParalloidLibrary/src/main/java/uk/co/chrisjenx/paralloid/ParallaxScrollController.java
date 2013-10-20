@@ -1,8 +1,10 @@
 package uk.co.chrisjenx.paralloid;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -69,6 +71,9 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         if (observer != null) {
             observer.addOnScrollChangedListener(mScrollObserver);
         }
+        if (mWrappedView instanceof AbsListView) {
+            ((AbsListView) mWrappedView).setOnScrollListener(mScrollObserver);
+        }
     }
 
     /**
@@ -115,6 +120,15 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     private void onScrollChanged(boolean force) {
         final int offsetX = mWrappedView.getScrollX();
         final int offsetY = mWrappedView.getScrollY();
+        onScrollChanged(offsetX, offsetY, force);
+    }
+
+    private void onScrollChanged(int offsetY, boolean force) {
+        final int offsetX = mWrappedView.getScrollX();
+        onScrollChanged(offsetX, offsetY, force);
+    }
+
+    private void onScrollChanged(int offsetX, int offsetY, boolean force) {
         if (offsetX != mLastScrollX || offsetY != mLastScrollY || force) {
             doScrollChanged(offsetX, offsetY, mLastScrollX, mLastScrollY);
             mLastScrollX = offsetX;
@@ -159,6 +173,7 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         }
         //Parallax this background if we can
         if (mWrappedParallaxBackground != null) {
+            Log.w(TAG, "ScrollBackground");
             ParallaxHelper.scrollBackgroundBy(mWrappedParallaxBackground, x, y);
         }
         // Scroll Changed Listener?
@@ -171,9 +186,10 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
      * Internal Class that listens to the ScrollChanged ViewTree, stops onScrollChanged() becoming public on
      * {@link uk.co.chrisjenx.paralloid.ParallaxScrollController}
      */
-    static class ScrollControllerOnScrollObserver implements ViewTreeObserver.OnScrollChangedListener {
+    static class ScrollControllerOnScrollObserver implements ViewTreeObserver.OnScrollChangedListener,AbsListView.OnScrollListener {
 
         private final ParallaxScrollController mParallaxScrollController;
+        private AbsListViewHelper mListViewScrollTracker = null;
 
         public ScrollControllerOnScrollObserver(ParallaxScrollController parallaxScrollController) {
             mParallaxScrollController = parallaxScrollController;
@@ -182,6 +198,17 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         @Override
         public void onScrollChanged() {
             mParallaxScrollController.onScrollChanged(false);
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            final int offsetY = AbsListViewHelper.calculateOffset(view);
+            mParallaxScrollController.onScrollChanged(offsetY, false);
+
         }
     }
 
