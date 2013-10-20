@@ -107,8 +107,11 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     private void onScrollChanged(boolean force) {
         final int offsetX = mWrappedView.getScrollX();
         final int offsetY = mWrappedView.getScrollY();
-        if (offsetX != mLastScrollX || offsetY != mLastScrollY || force)
+        if (offsetX != mLastScrollX || offsetY != mLastScrollY || force) {
             doScrollChanged(offsetX, offsetY, mLastScrollX, mLastScrollY);
+            mLastScrollX = offsetX;
+            mLastScrollY = offsetY;
+        }
     }
 
     // --
