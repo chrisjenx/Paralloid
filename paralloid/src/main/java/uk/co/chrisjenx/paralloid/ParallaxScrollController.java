@@ -126,6 +126,8 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     public void onScrollChanged(View who, int l, int t, int oldl, int oldt) {
         if (who != mWrappedView || mIgnoreOnScrollListener) return;
         onScrollChanged(l, t, oldl, oldt, false);
+        mLastScrollX = oldl;
+        mLastScrollY = oldt;
     }
 
     /**
@@ -155,6 +157,22 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         }
     }
 
+    /**
+     * Will do the scroll changed stuff.
+     *
+     * @param x    currentX of Parallaxor View
+     * @param y    currentX of Parallaxor View
+     * @param oldX Previous X
+     * @param oldY Previous Y
+     */
+    protected void doScrollChanged(final int x, final int y, final int oldX, final int oldY) {
+        doScrollViews(x, y);
+        //Parallax this background if we can
+        doScrollBackground(x, y);
+        // Scroll Changed Listener
+        doScrollListener(x, y, oldX, oldY);
+    }
+
     // --
     // doScrollChanged Pointers to keep memory consumption down during fast scrolling
     //
@@ -164,15 +182,7 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     private View viewPointer;
     // --
 
-    /**
-     * Will do the scroll changed stuff.
-     *
-     * @param x    currentX of Parallaxor View
-     * @param y    currentX of Parallaxor View
-     * @param oldX Previous X
-     * @param oldY Previous Y
-     */
-    private void doScrollChanged(final int x, final int y, final int oldX, final int oldY) {
+    private final void doScrollViews(final int x, final int y) {
         if (mViewHashMap != null) {
             entriesPointer = mViewHashMap.entrySet();
             iteratorPointer = entriesPointer.iterator();
@@ -190,11 +200,15 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
                 ParallaxHelper.scrollViewBy(viewPointer, x, y, entryPointer.getValue());
             }
         }
-        //Parallax this background if we can
+    }
+
+    private final void doScrollBackground(final int x, final int y) {
         if (mWrappedParallaxBackground != null) {
             ParallaxHelper.scrollBackgroundBy(mWrappedParallaxBackground, x, y);
         }
-        // Scroll Changed Listener?
+    }
+
+    private final void doScrollListener(final int x, final int y, final int oldX, final int oldY) {
         if (mScrollChangedListener != null) {
             mScrollChangedListener.onScrollChanged(mWrappedView, x, y, oldX, oldY);
         }
