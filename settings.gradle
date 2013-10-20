@@ -1,1 +1,1 @@
-include ':library', ':ParalloidExample'
+include ':ParalloidExample', ':ParalloidLibrary'
