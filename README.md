@@ -23,3 +23,41 @@ Two high level modules exist
 - `paralloidexamples` - which is of course the examples App.
 
 Generally use `paralloidviews` as it contains everything you need to get going.
+
+Custom View's
+-------------
+
+I tried to keep this as simple as possible, you can nearlly copy and paste this.
+
+- Extend the Scrollable view (or the one you allready have).
+- Impliment the `Parallaxor` interface.
+- Job done! See below for an example
+
+__Example implimentation:__
+    
+    public class MyScrollView extends ScrollView impliments Parallaxor {
+      //...
+      ParallaxScrollController mParallaxScrollController;
+      
+      private void init() {
+        mParallaxScrollController = ParallaxScrollController.wrap(this);
+      }
+      
+      @Override
+      public void parallaxViewBy(View view, float multiplier) {
+        mParallaxScrollController.parallaxViewBy(view, multiplier);
+      }
+      
+      @Override
+      public void parallaxBackgroundBy(Drawable drawable, float multiplier) {
+        mParallaxScrollController.parallaxBackgroundBy(drawable, multiplier);
+      }
+      
+      @Override
+      protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        mParallaxScrollController.onScrollChanged(this, l, t, oldl, oldt);
+      }
+    }
+    
+    
