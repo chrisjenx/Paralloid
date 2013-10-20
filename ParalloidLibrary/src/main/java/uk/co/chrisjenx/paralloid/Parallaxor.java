@@ -6,7 +6,7 @@ import android.view.View;
 /**
  * Suggests that this view will let you parallax others.
  */
-public interface Parallaxor {
+public interface Parallaxor{
     /**
      * Which view we want to move by.
      * <p/>
@@ -26,4 +26,10 @@ public interface Parallaxor {
      *                   background and half the rate of the scrolling.
      */
     public void parallaxBackgroundBy(Drawable drawable, float multiplier);
+
+    /**
+     * Add a scroll listener you can listen too if you want to do something custom your end as well.
+     * @param onScrollChangedListener Null is valid (it will remove it if set).
+     */
+    public void setOnScrollListener(OnScrollChangedListener onScrollChangedListener);
 }

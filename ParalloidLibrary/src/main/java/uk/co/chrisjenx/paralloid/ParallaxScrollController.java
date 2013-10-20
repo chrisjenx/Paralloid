@@ -35,6 +35,10 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
      * HashMap which contains the parallaxed views.
      */
     private WeakHashMap<View, Float> mViewHashMap;
+    /**
+     * The Optional Scroll Changed Listener for the user to listen to scroll events.
+     */
+    private OnScrollChangedListener mScrollChangedListener;
 
     private int mLastScrollX = 0;
     private int mLastScrollY = 0;
@@ -82,9 +86,23 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     }
 
     /**
+     * Feel free to implement {@link uk.co.chrisjenx.paralloid.OnScrollChangedListener} to get call
+     * backs to the wrapped view for scroll changed events.
+     *
+     * <b>Note</b>: this will get called, AFTER any parallax modification.
+     *
+     * @param onScrollChangedListener Null is valid (it will remove it if set).
+     */
+    @Override
+    public void setOnScrollListener(OnScrollChangedListener onScrollChangedListener) {
+        mScrollChangedListener = onScrollChangedListener;
+    }
+
+    /**
      * Something has changed.
      *
-     * @param force
+     * @param force force call through to updating the listening views,
+     *              default to false to not force scrolling.
      */
     private void onScrollChanged(boolean force) {
         final int offsetX = mWrappedView.getScrollX();
@@ -128,13 +146,10 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
                 ParallaxHelper.scrollViewBy(viewPointer, x, y, entryPointer.getValue());
             }
         }
-    }
-
-    /**
-     * OnScrolled changed Listener for {@link android.view.View} and this alike to implement
-     */
-    public interface OnScrollChangedListener {
-        void onScrollChanged(View who, int l, int t, int oldl, int oldt);
+        // Scroll Changed Listener?
+        if (mScrollChangedListener != null) {
+            mScrollChangedListener.onScrollChanged(mWrappedView, x, y, oldX, oldY);
+        }
     }
 
     /**
