@@ -67,12 +67,14 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         if (mWrappedView == null)
             throw new IllegalArgumentException("The wrapped view cannot be null");
 
-        final ViewTreeObserver observer = mWrappedView.getViewTreeObserver();
-        if (observer != null) {
-            observer.addOnScrollChangedListener(mScrollObserver);
-        }
         if (mWrappedView instanceof AbsListView) {
+            ((AbsListView) mWrappedView).setCacheColorHint(android.R.color.transparent);
             ((AbsListView) mWrappedView).setOnScrollListener(mScrollObserver);
+        } else {
+            final ViewTreeObserver observer = mWrappedView.getViewTreeObserver();
+            if (observer != null) {
+                observer.addOnScrollChangedListener(mScrollObserver);
+            }
         }
     }
 
@@ -186,10 +188,9 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
      * Internal Class that listens to the ScrollChanged ViewTree, stops onScrollChanged() becoming public on
      * {@link uk.co.chrisjenx.paralloid.ParallaxScrollController}
      */
-    static class ScrollControllerOnScrollObserver implements ViewTreeObserver.OnScrollChangedListener,AbsListView.OnScrollListener {
+    static class ScrollControllerOnScrollObserver implements ViewTreeObserver.OnScrollChangedListener, AbsListView.OnScrollListener {
 
         private final ParallaxScrollController mParallaxScrollController;
-        private AbsListViewHelper mListViewScrollTracker = null;
 
         public ScrollControllerOnScrollObserver(ParallaxScrollController parallaxScrollController) {
             mParallaxScrollController = parallaxScrollController;
@@ -207,8 +208,8 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             final int offsetY = AbsListViewHelper.calculateOffset(view);
+            Log.d("Parallax", "ScrollOffset: " + offsetY);
             mParallaxScrollController.onScrollChanged(offsetY, false);
-
         }
     }
 

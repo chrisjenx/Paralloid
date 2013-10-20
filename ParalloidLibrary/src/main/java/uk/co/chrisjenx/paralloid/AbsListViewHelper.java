@@ -1,5 +1,6 @@
 package uk.co.chrisjenx.paralloid;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
@@ -20,23 +21,21 @@ public final class AbsListViewHelper {
      * @return 0 for failure.
      */
     public static int calculateApproximateHeight(AbsListView listView) {
-
         final ListAdapter adapter = listView.getAdapter();
-        if (adapter == null) return 0;
-
         int totalHeight = 0;
         final int totalCount = adapter.getCount();
         if (totalCount > 0) {
             final View view = adapter.getView(0, null, listView);
-            if(view == null) return 0;
             view.measure(
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+//            Log.d("Parallax", "Height: " + view.getMeasuredHeight());
             totalHeight = view.getMeasuredHeight() * totalCount;
             if (listView instanceof ListView) {
                 totalHeight += ((ListView) listView).getDividerHeight() * (totalCount - 1);
             }
         }
+        Log.d("Parallax", "Total height: " + totalHeight);
         return totalHeight;
     }
 
