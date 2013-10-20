@@ -19,9 +19,9 @@ import uk.co.chrisjenx.paralloid.Parallaxor;
  * A dummy fragment representing a section of the app, but that simply
  * displays dummy text.
  */
-public class ParallaxBackgroundListFragment extends Fragment {
+public class OverParallaxBackgroundListFragment extends Fragment {
 
-    public ParallaxBackgroundListFragment() {
+    public OverParallaxBackgroundListFragment() {
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ParallaxBackgroundListFragment extends Fragment {
         // If you have difficulty getting this to work, just make sure this is called after adapter is added/view drawn for
         // ListViews, they have a limited support unfortunately.
         if (listView instanceof Parallaxor) {
-            ((Parallaxor) listView).parallaxBackgroundBy(getResources().getDrawable(R.drawable.bg_gradient_with_middle), .25f);
+            ((Parallaxor) listView).parallaxBackgroundBy(getResources().getDrawable(R.drawable.example_sky), 2.0f);
         }
     }
 }

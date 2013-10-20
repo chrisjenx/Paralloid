@@ -1,7 +1,6 @@
 package uk.co.chrisjenx.paralloid;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
@@ -175,7 +174,6 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         }
         //Parallax this background if we can
         if (mWrappedParallaxBackground != null) {
-            Log.w(TAG, "ScrollBackground");
             ParallaxHelper.scrollBackgroundBy(mWrappedParallaxBackground, x, y);
         }
         // Scroll Changed Listener?
@@ -208,7 +206,6 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             final int offsetY = AbsListViewHelper.calculateOffset(view);
-            Log.d("Parallax", "ScrollOffset: " + offsetY);
             mParallaxScrollController.onScrollChanged(offsetY, false);
         }
     }
