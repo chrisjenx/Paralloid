@@ -1,5 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="uk.co.chrisjenx.paralloid">
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18" />
-    <application />
-</manifest>
