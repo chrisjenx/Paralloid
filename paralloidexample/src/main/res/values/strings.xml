@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Paralloid Example</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">Parallax View</string>
+    <string name="title_section2">Shift Background</string>
+    <string name="title_section3">Parallax Background</string>
+    <string name="title_section4">Parallax List Background</string>
+    <string name="title_section5">OverParallax Background</string>
+
+</resources>
