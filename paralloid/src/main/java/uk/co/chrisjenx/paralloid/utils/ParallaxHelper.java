@@ -1,9 +1,10 @@
-package uk.co.chrisjenx.paralloid;
+package uk.co.chrisjenx.paralloid.utils;
 
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
@@ -18,7 +19,16 @@ public final class ParallaxHelper {
 
     public static void scrollViewBy(final View view, final int x, final int y, final float factor) {
         if (view == null) return;
-        view.scrollTo((int) (x * factor), (int) (y * factor));
+        scrollViewBy(view, x, y, null, factor);
+    }
+
+    public static void scrollViewBy(final View view, final float x, final float y, final Interpolator interpolator, final float factor) {
+        if (view == null) return;
+        if (interpolator != null) {
+            view.scrollTo((int) (interpolator.getInterpolation(x * factor)), (int) (y * interpolator.getInterpolation(factor)));
+        }else {
+            view.scrollTo((int) (x * factor), (int) (y * factor));
+        }
     }
 
     public static void scrollBackgroundBy(final ParallaxDrawable drawable, final int scrollX, final int scrollY) {

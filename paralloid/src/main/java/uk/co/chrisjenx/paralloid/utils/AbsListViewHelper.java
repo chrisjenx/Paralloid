@@ -1,4 +1,4 @@
-package uk.co.chrisjenx.paralloid;
+package uk.co.chrisjenx.paralloid.utils;
 
 import android.view.View;
 import android.widget.AbsListView;

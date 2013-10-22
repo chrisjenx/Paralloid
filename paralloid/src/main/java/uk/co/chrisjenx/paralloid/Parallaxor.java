@@ -18,6 +18,17 @@ public interface Parallaxor {
     public void parallaxViewBy(View view, float multiplier);
 
     /**
+     * Which view we want to move by.
+     * <p/>
+     * The view that implements this should call too {@link uk.co.chrisjenx.paralloid.ParallaxScrollController#parallaxViewBy(android.view.View, float)}
+     *
+     * @param view       View to move when this moves
+     *                   @param interpolator to
+     * @param multiplier 1.0f is the normal amount, a 1:1 ratio, 0.5f would move at half the distance of this view etc..
+     */
+//    public void parallaxViewBy(View view, Interpolator interpolator, float multiplier);
+
+    /**
      * This does a bit more than move the background, it will make it fit the view in a way that
      * it will reach out side its bounds to take into account
      *

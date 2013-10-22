@@ -2,6 +2,7 @@ package uk.co.chrisjenx.paralloid;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 
 import java.util.Iterator;
@@ -10,6 +11,8 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import uk.co.chrisjenx.paralloid.graphics.ParallaxDrawable;
+import uk.co.chrisjenx.paralloid.utils.AbsListViewHelper;
+import uk.co.chrisjenx.paralloid.utils.ParallaxHelper;
 
 /**
  * Created by chris on 02/10/2013
@@ -30,7 +33,7 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     /**
      * HashMap which contains the parallaxed views.
      */
-    private WeakHashMap<View, Float> mViewHashMap;
+    private WeakHashMap<View, ViewParallaxInfo> mViewHashMap;
     /**
      * The background of the wrapped View to Parallax
      */
@@ -73,16 +76,28 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
      * Add a view to be parallax'd by. If already set this will replace the current factor.
      *
      * @param view
-     * @param factor
+     * @param multiplier
      */
-    public void parallaxViewBy(View view, float factor) {
+    public void parallaxViewBy(View view, float multiplier) {
         if (view == null) return;
         if (view == mWrappedView)
             throw new IllegalArgumentException("You can't parallax the Parallaxor, this would end badly, Parallax other views");
         if (mViewHashMap == null)
-            mViewHashMap = new WeakHashMap<View, Float>();
+            mViewHashMap = new WeakHashMap<View, ViewParallaxInfo>();
 
-        mViewHashMap.put(view, Float.valueOf(factor));
+        mViewHashMap.put(view, new ViewParallaxInfo(multiplier, null));
+        onScrollChanged(false);
+    }
+
+//    @Override
+    public void parallaxViewBy(View view, Interpolator interpolator, float multiplier) {
+        if (view == null) return;
+        if (view == mWrappedView)
+            throw new IllegalArgumentException("You can't parallax the Parallaxor, this would end badly, Parallax other views");
+        if (mViewHashMap == null)
+            mViewHashMap = new WeakHashMap<View, ViewParallaxInfo>();
+
+        mViewHashMap.put(view, new ViewParallaxInfo(multiplier, interpolator));
         onScrollChanged(false);
     }
 
@@ -176,9 +191,10 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     // --
     // doScrollChanged Pointers to keep memory consumption down during fast scrolling
     //
-    private Set<Map.Entry<View, Float>> entriesPointer;
-    private Iterator<Map.Entry<View, Float>> iteratorPointer;
-    private Map.Entry<View, Float> entryPointer;
+    private Set<Map.Entry<View,ViewParallaxInfo>> entriesPointer;
+    private Iterator<Map.Entry<View,ViewParallaxInfo>> iteratorPointer;
+    private Map.Entry<View, ViewParallaxInfo> entryPointer;
+    private ViewParallaxInfo parallaxInfoPointer;
     private View viewPointer;
     // --
 
@@ -194,10 +210,11 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
 
                 // Remove if view removed
                 viewPointer = entryPointer.getKey();
+                parallaxInfoPointer = entryPointer.getValue();
                 if (viewPointer == null) entriesPointer.remove(entryPointer);
 
                 // Parallax the other view
-                ParallaxHelper.scrollViewBy(viewPointer, x, y, entryPointer.getValue());
+                ParallaxHelper.scrollViewBy(viewPointer, x, y, parallaxInfoPointer.interpolator, parallaxInfoPointer.factor);
             }
         }
     }
@@ -211,6 +228,16 @@ public class ParallaxScrollController<T extends View & Parallaxor> implements Pa
     private final void doScrollListener(final int x, final int y, final int oldX, final int oldY) {
         if (mScrollChangedListener != null) {
             mScrollChangedListener.onScrollChanged(mWrappedView, x, y, oldX, oldY);
+        }
+    }
+
+    private static class ViewParallaxInfo {
+        private final float factor;
+        private final Interpolator interpolator;
+
+        private ViewParallaxInfo(float factor, Interpolator interpolator) {
+            this.factor = factor;
+            this.interpolator = interpolator;
         }
     }
 }
