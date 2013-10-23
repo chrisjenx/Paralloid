@@ -17,7 +17,7 @@ Features
 Currently limited but will expand when requests.
 
 + Parallax another view when the parent scrolls.
-+ Parallax the background
++ Parallax multiple backgrounds.
 
 __Supports:__
 
