@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
@@ -25,9 +24,9 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
      */
     protected WeakHashMap<View, ParallaxViewInfo> mViewHashMap;
     /**
-     * The background of the wrapped View to Parallax
+     * The Background of Views to Parallax
      */
-    protected ParallaxDrawable mWrappedParallaxBackground;
+    protected WeakHashMap<View, ParallaxDrawable> mParallaxDrawableMap;
     /**
      * The Optional Scroll Changed Listener for the user to listen to scroll events.
      */
@@ -56,8 +55,8 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
     /**
      * Add a view to be parallax'd by. If already set this will replace the current factor.
      *
-     * @param view
-     * @param multiplier
+     * @param view       passing in yourself will throw an exception.
+     * @param multiplier passing in
      */
     public void parallaxViewBy(View view, float multiplier) {
         if (view == null) return;
@@ -72,14 +71,20 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
     }
 
     /**
-     * @param view View which to attach the drawable to.
-     * @param drawable Drawable to Parallax
-     * @param multiplier How much to move it by, 1 would be a 1:1 relationship. 0.5 would move the
+     * @param view       View which to attach the drawable to. (null will do nothing)
+     * @param drawable   Drawable to Parallax (null will do nothing)
+     * @param multiplier How much to move it by, 1 would be a 1:1 relationship. 0.5 would move the.
+     *                   Passing in 0 will make the background not move at all.
      */
     @Override
     public void parallaxViewBackgroundBy(final View view, final Drawable drawable, final float multiplier) {
-        mWrappedParallaxBackground = ParallaxHelper.getParallaxDrawable(drawable, multiplier);
-        ParallaxHelper.setParallaxBackground(view, mWrappedParallaxBackground);
+        if (view == null) return;
+        if (mParallaxDrawableMap == null)
+            mParallaxDrawableMap = new WeakHashMap<View, ParallaxDrawable>();
+
+        final ParallaxDrawable parallaxBackground = ParallaxHelper.getParallaxDrawable(drawable, multiplier);
+        ParallaxHelper.setParallaxBackground(view, parallaxBackground);
+        mParallaxDrawableMap.put(view, parallaxBackground);
     }
 
     /**
@@ -113,6 +118,7 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
             doScrollChanged(offsetX, offsetY, oldOffsetX, oldOffsetY);
         }
     }
+
     /**
      * Will do the scroll changed stuff.
      *
@@ -126,49 +132,58 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
         //Parallax this background if we can
         doScrollBackground(x, y);
         // Scroll Changed Listener
-        doScrollListener(getWrapped(),x, y, oldX, oldY);
+        doScrollListener(getWrapped(), x, y, oldX, oldY);
 
         // Set new LastScrollPos
         mLastScrollX = x;
         mLastScrollY = y;
     }
+
     // --
     // doScrollChanged Pointers to keep memory consumption down during fast scrolling
     //
-    private Set<Map.Entry<View, ParallaxViewInfo>> entriesPointer;
-    private Iterator<Map.Entry<View, ParallaxViewInfo>> iteratorPointer;
-    private Map.Entry<View, ParallaxViewInfo> entryPointer;
+    private Set<View> keySetPointer;
+    private Iterator<View> iteratorPointer;
     private ParallaxViewInfo parallaxInfoPointer;
+    private ParallaxDrawable parallaxDrawablePointer;
     private View viewPointer;
     // --
 
     private final void doScrollViews(final int x, final int y) {
-        if (mViewHashMap != null) {
-            entriesPointer = mViewHashMap.entrySet();
-            iteratorPointer = entriesPointer.iterator();
-            while (iteratorPointer.hasNext()) {
-                entryPointer = iteratorPointer.next();
+        if (mViewHashMap == null) return;
+        keySetPointer = mViewHashMap.keySet();
+        iteratorPointer = keySetPointer.iterator();
+        while (iteratorPointer.hasNext()) {
+            viewPointer = iteratorPointer.next();
 
-                if (entryPointer == null)
-                    continue;
+            if (viewPointer == null)
+                continue;
 
-                // Remove if view removed
-                viewPointer = entryPointer.getKey();
-                parallaxInfoPointer = entryPointer.getValue();
-                if (viewPointer == null) entriesPointer.remove(entryPointer);
+            // Get Value
+            parallaxInfoPointer = mViewHashMap.get(viewPointer);
 
-                // Parallax the other view
-                ParallaxHelper.scrollViewBy(viewPointer, x, y, parallaxInfoPointer.factor);
-            }
+            // Parallax the other view
+            ParallaxHelper.scrollViewBy(viewPointer, x, y, parallaxInfoPointer.factor);
         }
     }
 
 
-
     private final void doScrollBackground(final int x, final int y) {
-        if (mWrappedParallaxBackground != null) {
-            ParallaxHelper.scrollBackgroundBy(mWrappedParallaxBackground, x, y);
+        if (mParallaxDrawableMap == null) return;
+
+        keySetPointer = mParallaxDrawableMap.keySet();
+        iteratorPointer = keySetPointer.iterator();
+        while (iteratorPointer.hasNext()) {
+            viewPointer = iteratorPointer.next();
+
+            if (viewPointer == null)
+                continue;
+
+            // Get Value
+            parallaxDrawablePointer = mParallaxDrawableMap.get(viewPointer);
+            ParallaxHelper.scrollParallaxDrawableBy(parallaxDrawablePointer, x, y);
         }
+
     }
 
     private final void doScrollListener(final Object who, final int x, final int y, final int oldX, final int oldY) {
