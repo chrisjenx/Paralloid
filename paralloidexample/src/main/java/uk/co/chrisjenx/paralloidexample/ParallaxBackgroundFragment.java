@@ -5,9 +5,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
-import uk.co.chrisjenx.paralloid.Parallaxor;
+import uk.co.chrisjenx.paralloid.views.ParallaxScrollView;
 
 /**
  * A dummy fragment representing a section of the app, but that simply
@@ -22,10 +21,8 @@ public class ParallaxBackgroundFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_parallax_background, container, false);
-        ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
-        if (scrollView instanceof Parallaxor) {
-            ((Parallaxor) scrollView).parallaxViewBackgroundBy(scrollView, getResources().getDrawable(R.drawable.example_image), .2f);
-        }
+        ParallaxScrollView scrollView = (ParallaxScrollView) rootView.findViewById(R.id.scroll_view);
+        scrollView.parallaxViewBackgroundBy(scrollView, getResources().getDrawable(R.drawable.example_image), .2f);
 
         return rootView;
     }
