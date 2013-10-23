@@ -56,7 +56,7 @@ public class ParallaxBackgroundListFragment extends Fragment {
         // If you have difficulty getting this to work, just make sure this is called after adapter is added/view drawn for
         // ListViews, they have a limited support unfortunately.
         if (listView instanceof Parallaxor) {
-            ((Parallaxor) listView).parallaxBackgroundBy(getResources().getDrawable(R.drawable.bg_gradient_with_middle), .25f);
+            ((Parallaxor) listView).parallaxViewBackgroundBy(listView, getResources().getDrawable(R.drawable.example_image), .25f);
         }
     }
 }

@@ -24,7 +24,7 @@ public class ParallaxBackgroundFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_parallax_background, container, false);
         ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
         if (scrollView instanceof Parallaxor) {
-            ((Parallaxor) scrollView).parallaxBackgroundBy(getResources().getDrawable(R.drawable.example_image), .2f);
+            ((Parallaxor) scrollView).parallaxViewBackgroundBy(scrollView, getResources().getDrawable(R.drawable.example_image), .2f);
         }
 
         return rootView;

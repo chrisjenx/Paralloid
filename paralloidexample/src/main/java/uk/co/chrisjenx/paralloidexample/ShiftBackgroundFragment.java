@@ -24,7 +24,7 @@ public class ShiftBackgroundFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_parallax_background, container, false);
         ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
         if (scrollView instanceof Parallaxor) {
-            ((Parallaxor) scrollView).parallaxBackgroundBy(getResources().getDrawable(R.drawable.bg_gradient_invert), 1f);
+            ((Parallaxor) scrollView).parallaxViewBackgroundBy(scrollView, getResources().getDrawable(R.drawable.example_rainbow), 1f);
         }
 
         return rootView;

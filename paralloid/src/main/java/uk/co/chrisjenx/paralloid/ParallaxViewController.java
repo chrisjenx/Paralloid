@@ -28,7 +28,6 @@ public class ParallaxViewController<T extends View & Parallaxor> extends Paralla
             throw new IllegalArgumentException("The wrapped view cannot be null");
 
         if (mWrapped instanceof AbsListView) {
-            mIgnoreOnScrollListener = true;
             ((AbsListView) mWrapped).setOnScrollListener(this);
         }
     }
@@ -44,7 +43,9 @@ public class ParallaxViewController<T extends View & Parallaxor> extends Paralla
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         final int offsetY = AbsListViewHelper.calculateOffset(view);
+        mIgnoreOnScrollListener = false;
         onScrollChanged(getWrapped(), mWrapped.getScrollX(), offsetY, mLastScrollX, mLastScrollY);
+        mIgnoreOnScrollListener = true;
     }
 
 }

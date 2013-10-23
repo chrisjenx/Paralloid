@@ -56,7 +56,7 @@ public class OverParallaxBackgroundListFragment extends Fragment {
         // If you have difficulty getting this to work, just make sure this is called after adapter is added/view drawn for
         // ListViews, they have a limited support unfortunately.
         if (listView instanceof Parallaxor) {
-            ((Parallaxor) listView).parallaxBackgroundBy(getResources().getDrawable(R.drawable.example_sky), 2.0f);
+            ((Parallaxor) listView).parallaxViewBackgroundBy(listView, getResources().getDrawable(R.drawable.example_rainbow), 2.0f);
         }
     }
 }
