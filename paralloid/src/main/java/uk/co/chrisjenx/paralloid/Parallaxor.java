@@ -10,7 +10,7 @@ public interface Parallaxor {
     /**
      * Which view we want to move by.
      * <p/>
-     * The view that implements this should call too {@link uk.co.chrisjenx.paralloid.ParallaxScrollController#parallaxViewBy(android.view.View, float)}
+     * The view that implements this should call too {@link ParallaxViewController#parallaxViewBy(android.view.View, float)}
      *
      * @param view       View to move when this moves
      * @param multiplier 1.0f is the normal amount, a 1:1 ratio, 0.5f would move at half the distance of this view etc..

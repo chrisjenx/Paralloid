@@ -9,13 +9,13 @@ import uk.co.chrisjenx.paralloid.utils.AbsListViewHelper;
  * Created by chris on 02/10/2013
  * Project: Paralloid
  */
-public class ParallaxScrollController<T extends View & Parallaxor> extends ParallaxController<T> implements AbsListView.OnScrollListener {
+public class ParallaxViewController<T extends View & Parallaxor> extends ParallaxController<T> implements AbsListView.OnScrollListener {
 
-    public static <T extends View & Parallaxor> ParallaxScrollController wrap(T wrappedView) {
-        return new ParallaxScrollController<T>(wrappedView);
+    public static <T extends View & Parallaxor> ParallaxViewController wrap(T wrappedView) {
+        return new ParallaxViewController<T>(wrappedView);
     }
 
-    protected ParallaxScrollController(T wrappedView) {
+    protected ParallaxViewController(T wrappedView) {
         super(wrappedView);
         init();
     }

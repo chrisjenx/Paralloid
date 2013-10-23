@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ScrollView;
 
-import uk.co.chrisjenx.paralloid.ParallaxScrollController;
+import uk.co.chrisjenx.paralloid.ParallaxViewController;
 import uk.co.chrisjenx.paralloid.Parallaxor;
 
 /**
@@ -15,7 +15,7 @@ import uk.co.chrisjenx.paralloid.Parallaxor;
  */
 public class ParallaxScrollView extends ScrollView implements Parallaxor {
 
-    ParallaxScrollController mParallaxScrollController;
+    ParallaxViewController mParallaxViewController;
 
     public ParallaxScrollView(Context context) {
         super(context);
@@ -33,22 +33,22 @@ public class ParallaxScrollView extends ScrollView implements Parallaxor {
     }
 
     private void init() {
-        mParallaxScrollController = ParallaxScrollController.wrap(this);
+        mParallaxViewController = ParallaxViewController.wrap(this);
     }
 
     @Override
     public void parallaxViewBy(View view, float multiplier) {
-        mParallaxScrollController.parallaxViewBy(view, multiplier);
+        mParallaxViewController.parallaxViewBy(view, multiplier);
     }
 
     @Override
-    public void parallaxBackgroundBy(Drawable drawable, float multiplier) {
-        mParallaxScrollController.parallaxBackgroundBy(drawable, multiplier);
+    public void parallaxViewBackgroundBy(View view, Drawable drawable, float multiplier) {
+        mParallaxViewController.parallaxViewBackgroundBy(view, drawable, multiplier);
     }
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        mParallaxScrollController.onScrollChanged(this, l, t, oldl, oldt);
+        mParallaxViewController.onScrollChanged(this, l, t, oldl, oldt);
     }
 }
