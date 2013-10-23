@@ -20,31 +20,31 @@
                 android:orientation="vertical"
                 android:paddingTop="192dp">
 
-            <View
+            <TextView
                     android:background="@android:color/holo_blue_bright"
                     style="@style/FixedHeightBox"/>
 
-            <View
+            <TextView
                     android:background="@android:color/holo_blue_dark"
                     style="@style/FixedHeightBox"/>
 
-            <View
+            <TextView
                     android:background="@android:color/holo_blue_light"
                     style="@style/FixedHeightBox"/>
 
-            <View
+            <TextView
                     android:background="@android:color/holo_green_dark"
                     style="@style/FixedHeightBox"/>
 
-            <View
+            <TextView
                     android:background="@android:color/holo_green_light"
                     style="@style/FixedHeightBox"/>
 
-            <View
+            <TextView
                     android:background="@android:color/holo_orange_dark"
                     style="@style/FixedHeightBox"/>
 
-            <View
+            <TextView
                     android:background="@android:color/holo_orange_light"
                     style="@style/FixedHeightBox"/>
 
