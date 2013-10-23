@@ -18,6 +18,7 @@ Currently limited but will expand when requests.
 
 + Parallax another view when the parent scrolls.
 + Parallax multiple backgrounds.
++ Transformers, Parallax in different ways and directions
 
 __Supports:__
 

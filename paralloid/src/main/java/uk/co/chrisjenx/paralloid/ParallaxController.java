@@ -9,6 +9,7 @@ import java.util.WeakHashMap;
 
 import uk.co.chrisjenx.paralloid.graphics.ParallaxDrawable;
 import uk.co.chrisjenx.paralloid.transform.LinearTransformer;
+import uk.co.chrisjenx.paralloid.transform.Transformer;
 import uk.co.chrisjenx.paralloid.utils.ParallaxHelper;
 
 /**
@@ -60,13 +61,18 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
      * @param multiplier passing in
      */
     public void parallaxViewBy(View view, float multiplier) {
+        parallaxViewBy(view, null, multiplier);
+    }
+
+    @Override
+    public void parallaxViewBy(View view, Transformer transformer, float multiplier) {
         if (view == null) return;
         if (view == mWrapped)
             throw new IllegalArgumentException("You can't parallax yourself, this would end badly, Parallax other Views");
         if (mViewHashMap == null)
             mViewHashMap = new WeakHashMap<View, ParallaxViewInfo>();
 
-        mViewHashMap.put(view, new ParallaxViewInfo(multiplier, new LinearTransformer()));
+        mViewHashMap.put(view, new ParallaxViewInfo(multiplier, transformer == null ? new LinearTransformer() : transformer));
         // We force this to update the view just added
         onScrollChanged(mLastScrollX, mLastScrollY, mLastScrollX, mLastScrollY, true);
     }

@@ -8,6 +8,7 @@ import android.widget.HorizontalScrollView;
 
 import uk.co.chrisjenx.paralloid.ParallaxViewController;
 import uk.co.chrisjenx.paralloid.Parallaxor;
+import uk.co.chrisjenx.paralloid.transform.Transformer;
 
 /**
  * Created by chris on 02/10/2013
@@ -40,6 +41,11 @@ public class ParallaxHorizontalScrollView extends HorizontalScrollView implement
     @Override
     public void parallaxViewBy(View view, float multiplier) {
         mParallaxViewController.parallaxViewBy(view, multiplier);
+    }
+
+    @Override
+    public void parallaxViewBy(View view, Transformer transformer, float multiplier) {
+        mParallaxViewController.parallaxViewBy(view, transformer, multiplier);
     }
 
     @Override

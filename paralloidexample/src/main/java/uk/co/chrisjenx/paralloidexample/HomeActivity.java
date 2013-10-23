@@ -71,9 +71,11 @@ public class HomeActivity extends FragmentActivity {
                     return new ParallaxBackgroundFragment();
                 case 3:
                     return new ParallaxBackgroundListFragment();
-                default:
                 case 4:
                     return new OverParallaxBackgroundListFragment();
+                default:
+                case 5:
+                    return new ParallaxViewDownFragment();
             }
         }
 
@@ -95,6 +97,8 @@ public class HomeActivity extends FragmentActivity {
                     return getString(R.string.title_section4);
                 case 4:
                     return getString(R.string.title_section5);
+                case 5:
+                    return getString(R.string.title_invert_transformer);
             }
             return null;
         }
