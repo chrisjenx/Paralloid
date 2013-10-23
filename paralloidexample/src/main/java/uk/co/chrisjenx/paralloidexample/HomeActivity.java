@@ -81,7 +81,7 @@ public class HomeActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return 5;
+            return 6;
         }
 
         @Override

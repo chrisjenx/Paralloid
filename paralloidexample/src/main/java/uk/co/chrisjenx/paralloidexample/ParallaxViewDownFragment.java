@@ -28,7 +28,7 @@ public class ParallaxViewDownFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home_dummy, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_invert_transformer, container, false);
         ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
         ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
         if (scrollView instanceof Parallaxor) {
