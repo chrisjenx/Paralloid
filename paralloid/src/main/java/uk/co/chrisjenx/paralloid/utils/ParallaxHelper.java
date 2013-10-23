@@ -9,6 +9,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
 
 import uk.co.chrisjenx.paralloid.graphics.ParallaxDrawable;
+import uk.co.chrisjenx.paralloid.transform.Transformer;
 
 /**
  * Created by chris on 02/10/2013
@@ -19,6 +20,12 @@ public final class ParallaxHelper {
     public static void scrollViewBy(final View view, final int x, final int y, final float factor) {
         if (view == null) return;
         view.scrollTo((int) (x * factor), (int) (y * factor));
+    }
+
+    public static void scrollViewBy(final View view, final int x, final int y, final Transformer transformer, final float factor) {
+        if (view == null || transformer == null) return;
+        final int[] transform = transformer.scroll(x, y, factor);
+        view.scrollTo(transform[0], transform[1]);
     }
 
     public static void scrollParallaxDrawableBy(final ParallaxDrawable drawable, final int scrollX, final int scrollY) {

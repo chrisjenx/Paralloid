@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import uk.co.chrisjenx.paralloid.graphics.ParallaxDrawable;
+import uk.co.chrisjenx.paralloid.transform.LinearTransformer;
 import uk.co.chrisjenx.paralloid.utils.ParallaxHelper;
 
 /**
@@ -65,7 +66,7 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
         if (mViewHashMap == null)
             mViewHashMap = new WeakHashMap<View, ParallaxViewInfo>();
 
-        mViewHashMap.put(view, new ParallaxViewInfo(multiplier, null));
+        mViewHashMap.put(view, new ParallaxViewInfo(multiplier, new LinearTransformer()));
         // We force this to update the view just added
         onScrollChanged(mLastScrollX, mLastScrollY, mLastScrollX, mLastScrollY, true);
     }
@@ -163,7 +164,7 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
             parallaxInfoPointer = mViewHashMap.get(viewPointer);
 
             // Parallax the other view
-            ParallaxHelper.scrollViewBy(viewPointer, x, y, parallaxInfoPointer.factor);
+            ParallaxHelper.scrollViewBy(viewPointer, x, y, parallaxInfoPointer.interpolator, parallaxInfoPointer.factor);
         }
     }
 

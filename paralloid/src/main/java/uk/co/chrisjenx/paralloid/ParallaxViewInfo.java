@@ -10,9 +10,9 @@ class ParallaxViewInfo {
     private int maxX;
     private int maxY;
 
-    ParallaxViewInfo(float factor, Transformer interpolator) {
+    ParallaxViewInfo(float factor, Transformer transformer) {
         this.factor = factor;
-        this.interpolator = interpolator;
+        this.interpolator = transformer;
     }
 
     public int getMaxX() {
