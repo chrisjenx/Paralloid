@@ -29,8 +29,8 @@ public class ParallaxViewCombiFragment extends Fragment {
         ImageView imageView2 = (ImageView) rootView.findViewById(R.id.image_view2);
         ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.scroll_view);
         if (scrollView instanceof Parallaxor) {
-            ((Parallaxor) scrollView).parallaxViewBy(imageView, new LeftAngleTransformer(), 0.25f);
-            ((Parallaxor) scrollView).parallaxViewBy(imageView2, new RightAngleTransformer(), 0.25f);
+            ((Parallaxor) scrollView).parallaxViewBy(imageView, new LeftAngleTransformer(), 0.2f);
+            ((Parallaxor) scrollView).parallaxViewBy(imageView2, new RightAngleTransformer(), 0.2f);
         }
 
         return rootView;
