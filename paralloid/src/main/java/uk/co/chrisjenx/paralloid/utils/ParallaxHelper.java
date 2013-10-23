@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
@@ -19,16 +18,7 @@ public final class ParallaxHelper {
 
     public static void scrollViewBy(final View view, final int x, final int y, final float factor) {
         if (view == null) return;
-        scrollViewBy(view, x, y, null, factor);
-    }
-
-    public static void scrollViewBy(final View view, final float x, final float y, final Interpolator interpolator, final float factor) {
-        if (view == null) return;
-        if (interpolator != null) {
-            view.scrollTo((int) (interpolator.getInterpolation(x * factor)), (int) (y * interpolator.getInterpolation(factor)));
-        }else {
-            view.scrollTo((int) (x * factor), (int) (y * factor));
-        }
+        view.scrollTo((int) (x * factor), (int) (y * factor));
     }
 
     public static void scrollBackgroundBy(final ParallaxDrawable drawable, final int scrollX, final int scrollY) {
@@ -37,11 +27,16 @@ public final class ParallaxHelper {
     }
 
 
-    public static ParallaxDrawable setParallaxBackground(final View view, final Drawable drawableBackground, float multiplier) {
-        if (view == null || drawableBackground == null) return null;
-        final ParallaxDrawable parallaxDrawable = new ParallaxDrawable(drawableBackground, multiplier);
+    public static ParallaxDrawable getParallaxDrawable(final Drawable drawable, float factor) {
+        if(drawable == null) return null;
+        return new ParallaxDrawable(drawable, factor);
+    }
+
+
+    public static void setParallaxBackground(final View view, final ParallaxDrawable parallaxDrawable) {
+        if (view == null || parallaxDrawable == null) return;
         // We request the size before attaching just incase the view has drawn we can pre populate the drawable with the extra height/width
-        requestScrollableWidthHeight(view, multiplier, new ParallaxHelper.ScrollableWidthHeightCallback() {
+        requestScrollableWidthHeight(view, parallaxDrawable.getFactor(), new ParallaxHelper.ScrollableWidthHeightCallback() {
             @Override
             public void onScrollableWidthHeight(final float width, final float height) {
                 // This is called back when the view has (hopefully) the correct width/height
@@ -50,7 +45,6 @@ public final class ParallaxHelper {
         });
         view.setBackgroundDrawable(parallaxDrawable);
         fixParallaxBackgroundPreJBMR1(view, parallaxDrawable);
-        return parallaxDrawable;
     }
 
     static void requestScrollableWidthHeight(final View view, final float multiplier, final ScrollableWidthHeightCallback callback) {

@@ -125,13 +125,13 @@ __Example implimentation:__
       }
       
       @Override
-      public void parallaxViewBy(View view, float multiplier) {
-        mParallaxScrollController.parallaxViewBy(view, multiplier);
+      public void parallaxViewBy(View view, float factor) {
+        mParallaxScrollController.parallaxViewBy(view, factor);
       }
       
       @Override
-      public void parallaxBackgroundBy(Drawable drawable, float multiplier) {
-        mParallaxScrollController.parallaxBackgroundBy(drawable, multiplier);
+      public void parallaxBackgroundBy(Drawable drawable, float factor) {
+        mParallaxScrollController.parallaxBackgroundBy(drawable, factor);
       }
       
       @Override

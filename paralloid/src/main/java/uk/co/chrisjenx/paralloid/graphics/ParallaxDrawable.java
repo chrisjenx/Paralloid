@@ -14,23 +14,27 @@ import android.os.Build;
 public class ParallaxDrawable extends Drawable {
 
     private final Drawable mWrappedDrawable;
-    private float mMultiplier;
+    private float mFactor;
     private int mWidth;
     private int mHeight;
     private float mOffsetX;
     private float mOffsetY;
 
-    public ParallaxDrawable(Drawable wrappedDrawable, float multiplier) {
+    public ParallaxDrawable(Drawable wrappedDrawable, float factor) {
         mWrappedDrawable = wrappedDrawable;
-        mMultiplier = multiplier;
+        mFactor = factor;
     }
 
     public Drawable getWrappedDrawable() {
         return mWrappedDrawable;
     }
 
-    public void setMultiplier(float multiplier) {
-        mMultiplier = multiplier;
+    public void setFactor(float factor) {
+        mFactor = factor;
+    }
+
+    public float getFactor() {
+        return mFactor;
     }
 
     public void setParallaxExtraWidthHeight(float width, float height) {
@@ -39,8 +43,8 @@ public class ParallaxDrawable extends Drawable {
     }
 
     public void setScrollTo(float x, float y) {
-        mOffsetX = x * mMultiplier;
-        mOffsetY = y * mMultiplier;
+        mOffsetX = x * mFactor;
+        mOffsetY = y * mFactor;
     }
 
     @Override
