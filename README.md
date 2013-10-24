@@ -115,9 +115,9 @@ I tried to keep this as simple as possible, you can nearly copy and paste this.
 - Impliment the `Parallaxor` interface.
 - Job done! See below for an example
 
-__Example implimentation:__
+__Example implementation:__
     
-    public class MyScrollView extends ScrollView impliments Parallaxor {
+    public class MyScrollView extends ScrollView implements Parallaxor {
       //...
       ParallaxScrollController mParallaxScrollController;
       
