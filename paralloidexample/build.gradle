@@ -20,6 +20,18 @@ android {
         minSdkVersion 14
         targetSdkVersion 18
     }
+
+    signingConfigs {
+        release {
+            // We can leave these in environment variables
+            storeFile file(":keystore:paralloid.jks")
+            keyAlias "paralloid"
+
+            ext.paralloidPassword = has("paralloidPassword") ? paralloidPassword : ""
+            storePassword paralloidPassword
+            keyPassword paralloidPassword
+        }
+    }
 }
 
 dependencies {
