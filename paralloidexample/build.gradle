@@ -24,12 +24,17 @@ android {
     signingConfigs {
         release {
             // We can leave these in environment variables
-            storeFile file(":keystore:paralloid.jks")
+            storeFile file("keystore/paralloidkeystore.jks")
             keyAlias "paralloid"
 
-            ext.paralloidPassword = has("paralloidPassword") ? paralloidPassword : ""
-            storePassword paralloidPassword
-            keyPassword paralloidPassword
+            storePassword 'paralloid'
+            keyPassword 'paralloid'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
         }
     }
 }
