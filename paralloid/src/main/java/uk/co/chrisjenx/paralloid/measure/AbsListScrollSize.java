@@ -1,4 +1,4 @@
-package uk.co.chrisjenx.paralloid.utils;
+package uk.co.chrisjenx.paralloid.measure;
 
 import android.view.View;
 import android.widget.AbsListView;
@@ -6,10 +6,20 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
- * Helper class for calculating relative scroll offsets in a ListView or GridView by tracking the
- * position of child views.
+ * Created by chris on 25/10/2013
+ * Project: Paralloid
  */
-public final class AbsListViewHelper {
+public class AbsListScrollSize extends ViewScrollSize<AbsListView> {
+
+
+    public AbsListScrollSize(AbsListView viewToSize) {
+        super(viewToSize);
+    }
+
+    @Override
+    public int getMaxScrollY() {
+        return calculateApproximateHeight(viewToSize);
+    }
 
     /**
      * This method is by no means accurate, and Will only work to any degree of accuracy if your list items
@@ -21,20 +31,26 @@ public final class AbsListViewHelper {
      */
     public static int calculateApproximateHeight(AbsListView listView) {
         final ListAdapter adapter = listView.getAdapter();
-        int totalHeight = 0;
+        int onScreenHeight = 0, totalHeight = 0;
         final int totalCount = adapter.getCount();
+        final int visibleCount = listView.getLastVisiblePosition() - listView.getFirstVisiblePosition();
         if (totalCount > 0) {
-            final View view = adapter.getView(0, null, listView);
-            view.measure(
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-//            Log.d("Parallax", "Height: " + view.getMeasuredHeight());
-            totalHeight = view.getMeasuredHeight() * totalCount;
+            View view;
+            for (int i = 0; i < visibleCount; i++) {
+//                final View view = adapter.getView(0, null, listView);
+                view = listView.getChildAt(i);
+//                view.measure(
+//                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                onScreenHeight += view.getMeasuredHeight();
+            }
+            // Get the average on screen height, then multiply it up.
+            totalHeight = (onScreenHeight / visibleCount) * totalCount;
+            // Add the divider height.
             if (listView instanceof ListView) {
                 totalHeight += ((ListView) listView).getDividerHeight() * (totalCount - 1);
             }
         }
-        // Log.d("Parallax", "Total height: " + totalHeight);
         return totalHeight;
     }
 
@@ -46,9 +62,8 @@ public final class AbsListViewHelper {
      */
     public static int calculateOffset(final AbsListView listView) {
         final View c = listView.getChildAt(0);
-        if(c == null) return 0;
+        if (c == null) return 0;
         return -c.getTop() + listView.getFirstVisiblePosition() * c.getHeight();
     }
 
-    private AbsListViewHelper(){}
 }
