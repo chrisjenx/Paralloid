@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import uk.co.chrisjenx.paralloid.graphics.ParallaxDrawable;
-import uk.co.chrisjenx.paralloid.transform.LinearTransformer;
 import uk.co.chrisjenx.paralloid.transform.Transformer;
 import uk.co.chrisjenx.paralloid.utils.ParallaxHelper;
 
@@ -185,6 +184,8 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
 
             // Get Value
             parallaxDrawablePointer = mParallaxDrawableMap.get(viewPointer);
+
+            // Parallax the drawable
             ParallaxHelper.scrollParallaxDrawableBy(parallaxDrawablePointer, x, y);
         }
 
