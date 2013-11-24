@@ -3,7 +3,7 @@ package uk.co.chrisjenx.paralloid;
 import android.view.View;
 import android.widget.AbsListView;
 
-import uk.co.chrisjenx.paralloid.utils.AbsListViewHelper;
+import uk.co.chrisjenx.paralloid.measure.AbsListScrollSize;
 
 /**
  * Created by chris on 02/10/2013
@@ -42,7 +42,7 @@ public class ParallaxViewController<T extends View & Parallaxor> extends Paralla
      */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        final int offsetY = AbsListViewHelper.calculateOffset(view);
+        final int offsetY = AbsListScrollSize.calculateOffset(view);
         mIgnoreOnScrollListener = false;
         onScrollChanged(getWrapped(), mWrapped.getScrollX(), offsetY, mLastScrollX, mLastScrollY);
         mIgnoreOnScrollListener = true;

@@ -1,5 +1,6 @@
 package uk.co.chrisjenx.paralloid;
 
+import uk.co.chrisjenx.paralloid.transform.LinearTransformer;
 import uk.co.chrisjenx.paralloid.transform.Transformer;
 
 class ParallaxViewInfo {
@@ -12,7 +13,7 @@ class ParallaxViewInfo {
 
     ParallaxViewInfo(float factor, Transformer transformer) {
         this.factor = factor;
-        this.interpolator = transformer;
+        this.interpolator = transformer == null ? new LinearTransformer() : transformer;
     }
 
     public int getMaxX() {

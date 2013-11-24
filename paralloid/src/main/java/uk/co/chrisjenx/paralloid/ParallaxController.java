@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import uk.co.chrisjenx.paralloid.graphics.ParallaxDrawable;
-import uk.co.chrisjenx.paralloid.transform.LinearTransformer;
 import uk.co.chrisjenx.paralloid.transform.Transformer;
 import uk.co.chrisjenx.paralloid.utils.ParallaxHelper;
 
@@ -69,10 +68,9 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
         if (view == null) return;
         if (view == mWrapped)
             throw new IllegalArgumentException("You can't parallax yourself, this would end badly, Parallax other Views");
-        if (mViewHashMap == null)
-            mViewHashMap = new WeakHashMap<View, ParallaxViewInfo>();
+        checkViewMap();
 
-        mViewHashMap.put(view, new ParallaxViewInfo(multiplier, transformer == null ? new LinearTransformer() : transformer));
+        mViewHashMap.put(view, new ParallaxViewInfo(multiplier, transformer));
         // We force this to update the view just added
         onScrollChanged(mLastScrollX, mLastScrollY, mLastScrollX, mLastScrollY, true);
     }
@@ -86,8 +84,7 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
     @Override
     public void parallaxViewBackgroundBy(final View view, final Drawable drawable, final float multiplier) {
         if (view == null) return;
-        if (mParallaxDrawableMap == null)
-            mParallaxDrawableMap = new WeakHashMap<View, ParallaxDrawable>();
+        checkBackgroundMap();
 
         final ParallaxDrawable parallaxBackground = ParallaxHelper.getParallaxDrawable(drawable, multiplier);
         ParallaxHelper.setParallaxBackground(view, parallaxBackground);
@@ -174,7 +171,6 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
         }
     }
 
-
     private final void doScrollBackground(final int x, final int y) {
         if (mParallaxDrawableMap == null) return;
 
@@ -188,6 +184,8 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
 
             // Get Value
             parallaxDrawablePointer = mParallaxDrawableMap.get(viewPointer);
+
+            // Parallax the drawable
             ParallaxHelper.scrollParallaxDrawableBy(parallaxDrawablePointer, x, y);
         }
 
@@ -197,5 +195,21 @@ public class ParallaxController<T extends Object> implements ParallaxorListener 
         if (mScrollChangedListener != null && (x != oldX || y != oldY)) {
             mScrollChangedListener.onScrollChanged(who, x, y, oldX, oldY);
         }
+    }
+
+    /**
+     * Checks the viewMap is ready to use.
+     */
+    private final void checkViewMap() {
+        if (mViewHashMap == null)
+            mViewHashMap = new WeakHashMap<View, ParallaxViewInfo>();
+    }
+
+    /**
+     * Checks the BackgroundMap is ready to use.
+     */
+    private final void checkBackgroundMap() {
+        if (mParallaxDrawableMap == null)
+            mParallaxDrawableMap = new WeakHashMap<View, ParallaxDrawable>();
     }
 }
