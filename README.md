@@ -1,7 +1,11 @@
 Paralloid
 =========
 
-Paralloid - (Pah-rah-loid) The Android Parallax library.
+Paralloid - (Pah-rah-loid) The Android Parallax library
+
+Compatible back to API 7
+
+An example application, [Paralloid Library Example](https://play.google.com/store/apps/details?id=uk.co.chrisjenx.paralloidexample&hl=en),  can be downloaded from the Play Store.
 
 ParallaxScrollView is dead..
 ----------------------------
