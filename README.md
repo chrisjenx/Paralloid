@@ -53,9 +53,13 @@ _Currently I only support Gradle_
 
 #### Locally:
 
-    dependencies {
-        compile project(':paralloidviews')
-    }
+Temporary steps from @therealkris.
+
+- First, I cloned the library into `myproject/libs/paralloid`.
+- In my `settings.gradle`, I added include `':libs:paralloid:paralloid'`, `':libs:paralloid:paralloidviews'`.
+- In my `build.gradle`, I added `compile project(':libs:paralloid:paralloid')`, `project(':libs:paralloid:paralloidviews')`.
+- In `libs/paralloid/paralloid`, I removed the `uploadArchives {}` block.
+- In `libs/paralloid/paralloidviews`, I removed the `uploadArchives {}` block AND changed the dependency to read: `compile project(':libs:paralloid:paralloid')` instead of `compile project(':paralloid')`
     
 #### Or Repository (coming soon):
 
