@@ -114,7 +114,7 @@ Thats it!
 Have a look at the `Parallaxor` interface for applicable Parallax methods.
     
 
-Custom View's
+Custom Views
 -------------
 
 I tried to keep this as simple as possible, you can nearly copy and paste this.
