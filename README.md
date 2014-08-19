@@ -60,7 +60,7 @@ Temporary steps from @therealkris.
 - In my `build.gradle`, I added `compile project(':libs:paralloid:paralloid')`, `project(':libs:paralloid:paralloidviews')`.
 - In `libs/paralloid/paralloid`, I removed the `uploadArchives {}` block.
 - In `libs/paralloid/paralloidviews`, I removed the `uploadArchives {}` block AND changed the dependency to read: `compile project(':libs:paralloid:paralloid')` instead of `compile project(':paralloid')`
-    
+
 #### Or Repository (coming soon):
 
     dependencies {
@@ -74,7 +74,7 @@ Temporary steps from @therealkris.
 This is an example, please refer to the `paralloidexample` App for full code.
 
     <FrameLayout ..>
-    <FrameLayout 
+    <FrameLayout
     		android:id="@+id/top_content"
                	android:layout_width="match_parent"
                	android:layout_height="192dp"/>
@@ -91,11 +91,11 @@ This is an example, please refer to the `paralloidexample` App for full code.
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingTop="192dp"/>
-                
+
     </uk.co.chrisjenx.paralloid.views.ParallaxScrollView>
     </FrameLayout>
-    
-    
+
+
 ### Fragment
 
 Inside your `onViewCreated()` or `onCreateView()`.
@@ -107,12 +107,12 @@ Inside your `onViewCreated()` or `onCreateView()`.
             ((Parallaxor) scrollView).parallaxViewBy(topContent, 0.5f);
     }
     // TODO: add content to top/scroll content
-    
-    
+
+
 Thats it!
 
 Have a look at the `Parallaxor` interface for applicable Parallax methods.
-    
+
 
 Custom Views
 -------------
@@ -120,34 +120,42 @@ Custom Views
 I tried to keep this as simple as possible, you can nearly copy and paste this.
 
 - Extend the Scrollable view (or the one you allready have).
-- Impliment the `Parallaxor` interface.
+- Implement the `Parallaxor` interface.
 - Job done! See below for an example
 
 __Example implementation:__
-    
+
     public class MyScrollView extends ScrollView implements Parallaxor {
       //...
-      ParallaxScrollController mParallaxScrollController;
-      
+      ParallaxViewController mParallaxViewController;
+
+      // Call init() in constructors
       private void init() {
-        mParallaxScrollController = ParallaxScrollController.wrap(this);
+        mParallaxViewController = ParallaxViewController.wrap(this);
       }
-      
-      @Override
-      public void parallaxViewBy(View view, float factor) {
-        mParallaxScrollController.parallaxViewBy(view, factor);
-      }
-      
-      @Override
-      public void parallaxBackgroundBy(Drawable drawable, float factor) {
-        mParallaxScrollController.parallaxBackgroundBy(drawable, factor);
-      }
-      
+
       @Override
       protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        mParallaxScrollController.onScrollChanged(this, l, t, oldl, oldt);
+        mParallaxViewController.onScrollChanged(this, l, t, oldl, oldt);
       }
+
+      // region Implementation of Parallaxor
+
+      @Override
+      public void parallaxViewBy(View view, float multiplier) {
+        mParallaxViewController.parallaxViewBy(view, multiplier);
+      }
+
+      @Override
+      public void parallaxViewBy(View view, Transformer transformer, float multiplier) {
+        mParallaxViewController.parallaxViewBy(view, transformer, multiplier);
+      }
+
+      @Override
+      public void parallaxViewBackgroundBy(View view, Drawable drawable, float multiplier) {
+        mParallaxViewController.parallaxViewBackgroundBy(view, drawable, multiplier);
+      }
+
+      // endregion
     }
-    
-    
