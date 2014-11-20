@@ -1,5 +1,7 @@
-Paralloid
+Paralloid - DEPRECATED
 =========
+
+DEPRECATED - Use the project for more of guide and ideas how to apply parallax techniques. I will not support this library anymore.
 
 Paralloid - (Pah-rah-loid) The Android Parallax library
 
